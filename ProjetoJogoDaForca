@@ -1,0 +1,91 @@
+using System;
+using System.Collections.Generic;
+
+
+class Program
+{
+    static void Main()
+    {
+        bool jogarNovamente = true;
+
+        while (jogarNovamente)
+        {
+            List<string> palavras = new List<string>
+            {
+                "BOTAFOGO",
+                "PALMEIRAS",
+                "GRÊMIO",
+                "FLAMENGO",
+                "FLUMINENSE",
+                "BRAGANTINO",
+                "ATHLETICO PARANAENSE",
+                "FORTALEZA",
+                "ATLÉTICO MINEIRO",
+                "CUIABÁ",
+                "SÃO PAULO",
+                "CRUZEIRO",
+                "CORINTHIANS",
+                "INTERNACIONAL",
+                "GOIÁS",
+                "BAHIA",
+                "SANTOS",
+                "VASCO DA GAMA",
+                "CORITIBA",
+                "AMÉRICA MINEIRO"
+            };
+
+            Random random = new Random();
+            string palavraEscolhida = palavras[random.Next(palavras.Count)];
+
+            string palavraOculta = new string('_', palavraEscolhida.Length);
+
+            int tentativas = 6;
+
+            while (tentativas > 0 && !palavraOculta.Equals(palavraEscolhida))
+            {
+                Console.Clear();
+                Console.WriteLine("DICA = TIME DE FUTEBOL BRASILEIRO ");
+                Console.WriteLine("Palavra: " + palavraOculta);
+                Console.WriteLine("Tentativas restantes: " + tentativas);
+                Console.Write("Digite uma letra: ");
+                char letra = Console.ReadKey().KeyChar;
+
+                if (palavraOculta.Contains(letra))
+                {
+                    Console.WriteLine("\nVocê já adivinhou essa letra. Tente novamente.");
+                    continue;
+                }
+
+                bool letraAdivinhada = false;
+                for (int i = 0; i < palavraEscolhida.Length; i++)
+                {
+                    if (palavraEscolhida[i] == letra)
+                    {
+                        palavraOculta = palavraOculta.Remove(i, 1).Insert(i, letra.ToString());
+                        letraAdivinhada = true;
+                    }
+                }
+
+                if (!letraAdivinhada)
+                {
+                    Console.WriteLine("\nLetra incorreta. Tente novamente.");
+                    tentativas--;
+                }
+            }
+
+            Console.Clear();
+            if (palavraOculta.Equals(palavraEscolhida))
+            {
+                Console.WriteLine("Parabéns! Você adivinhou a palavra: " + palavraEscolhida);
+            }
+            else
+            {
+                Console.WriteLine("Você perdeu! A palavra era: " + palavraEscolhida);
+            }
+
+            Console.Write("Quer jogar de novo? (s/n): ");
+            char resposta = Console.ReadKey().KeyChar;
+            jogarNovamente = (resposta == 's' || resposta == 'S');
+        }
+    }
+}
